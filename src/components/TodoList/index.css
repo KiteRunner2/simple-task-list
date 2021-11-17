@@ -1,0 +1,15 @@
+.todo-list__container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+}
+
+.todo-list__item {
+  box-shadow: 5px 5px 18px #888888;
+  margin-bottom: 10px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
