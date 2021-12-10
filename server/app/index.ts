@@ -3,6 +3,18 @@ import { connect } from "./db"
 import tasksRoutes from "./routes/tasks"
 import authRoutes from "./routes/auth"
 import bodyParser from "body-parser"
+import winston from "winston"
+import path from "path"
+const PORT = process.env.PORT
+
+const filename = path.join(__dirname, "logfile.log")
+
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename }),
+  ],
+})
 
 const app = express()
 app.use(bodyParser.json())
@@ -14,6 +26,6 @@ app.use("/auth", authRoutes)
 
 connect()
 
-app.listen(5000, () => {
-  console.log("app started")
+app.listen(PORT, () => {
+  logger.log({ level: "info", message: `Application started on port ${PORT}` })
 })
