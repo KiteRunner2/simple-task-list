@@ -1,6 +1,6 @@
+import logger from "../logger"
 import { MongoClient } from "mongodb"
 require("dotenv").config()
-import logger from "../logger"
 const dbUrl = (process.env as { DB_URL: string }).DB_URL
 export const client = new MongoClient(dbUrl)
 
