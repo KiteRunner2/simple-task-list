@@ -1,14 +1,15 @@
 import { MongoClient } from "mongodb"
 require("dotenv").config()
+import logger from "../logger"
 const dbUrl = (process.env as { DB_URL: string }).DB_URL
 export const client = new MongoClient(dbUrl)
 
-export async function connect() {
+export async function connectToDatabase() {
   try {
     await client.connect()
-    console.log("db connected")
+    logger.log({ level: "info", message: "Database connected" })
   } catch (err) {
-    console.log(err)
+    logger.log({ level: "error", message: "Could not connect to database!" })
     process.exit(1)
   }
 }
