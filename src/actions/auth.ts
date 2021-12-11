@@ -8,7 +8,7 @@ async function Login({ email, password }: { email: string; password: string }) {
 
   try {
     useStore.setState({ isLoading: true })
-    let response: any = await fetch("/auth/login", {
+    let response: any = await fetch("/api/v1/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -38,7 +38,7 @@ async function Register({
 
   try {
     useStore.setState({ isLoading: true })
-    let response: any = await fetch("/auth/register", {
+    let response: any = await fetch("/api/v1/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -46,8 +46,10 @@ async function Register({
       },
     })
     response = await response.json()
+    useStore.setState({ toast: { shouldShow: true } })
     return response
   } catch (err) {
+    useStore.setState({ toast: { shouldShow: true } })
     return { $error: err }
   } finally {
     useStore.setState({ isLoading: false })

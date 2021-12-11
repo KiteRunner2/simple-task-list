@@ -10,7 +10,7 @@ export default function Init(app: Express) {
     res.status(500).json({ message: err.message })
   })
 
-  app.use("/todos", tasksRoutes)
+  app.use("/api/v1/todos", tasksRoutes)
 
-  app.use("/auth", authRoutes)
+  app.use("/api/v1/auth", authRoutes)
 }

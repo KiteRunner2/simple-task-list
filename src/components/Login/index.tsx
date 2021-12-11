@@ -4,6 +4,7 @@ import { Input } from "@chakra-ui/input"
 import { Button } from "@chakra-ui/button"
 import useStore from "../../store"
 import authActions from "../../actions/auth"
+import Toast from "../Toast"
 
 function SignUpNotice() {
   const setIsRegistering = useStore((state) => state.setIsRegistering)
@@ -38,6 +39,16 @@ function RenderError() {
 function LoginOrRegister() {
   const [input, setInput] = useState({ email: "", password: "" })
   const isRegistering = useStore((state) => state.isRegistering)
+  const { isRegisteringSuccessfull } = useStore((state) => {
+    return {
+      isRegisteringSuccessfull: state.isRegisteringSuccessfull,
+      // setIsRegisteringSuccessfull: state.isRegisteringSuccessfull,
+    }
+  })
+  const { shouldShowToast } = useStore((state) => {
+    return { shouldShowToast: state.toast.shouldShow }
+  })
+  console.log("shouldShowToast", shouldShowToast)
   const { isLoading } = useStore((state) => {
     return { isLoading: state.isLoading, setLoading: state.setLoading }
   })
@@ -110,6 +121,13 @@ function LoginOrRegister() {
         </Button>
         <SignUpNotice />
         <RenderError />
+        <Toast
+          shouldShowToast={shouldShowToast}
+          title="Account created"
+          description="We have created account for you"
+          status={isRegisteringSuccessfull ? "success" : "error"}
+          duration={3000}
+        />
       </div>
     </div>
   )

@@ -28,7 +28,7 @@ async function Register(req: Request, res: Response, next: NextFunction) {
   }
   try {
     await Users.insertOne(data)
-    return res.status(200).end()
+    return res.status(200).json({ $data: "success" })
   } catch (err) {
     return next(new Error("error while registering user"))
   }
