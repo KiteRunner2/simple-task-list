@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { Users } from "../db"
 import bcrypt from "bcrypt"
+import { ResponseSuccess } from "../utils/response"
 
 async function Login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body
@@ -12,8 +13,10 @@ async function Login(req: Request, res: Response, next: NextFunction) {
     return next(new Error("user not found"))
   }
   const hash = user.password
-  console.log(bcrypt.compareSync(password, hash))
-  return res.status(200).json({ $data: "login ok!" })
+  if (bcrypt.compareSync(password, hash)) {
+    return res.status(200).json(new ResponseSuccess("Login ok!", []))
+  }
+  return next(new Error("Wrong email or password"))
 }
 
 async function Register(req: Request, res: Response, next: NextFunction) {
@@ -23,8 +26,6 @@ async function Register(req: Request, res: Response, next: NextFunction) {
   }
   const user = await Users.findOne({ email })
   if (user) {
-    const newError = new Error("TEST")
-    console.log(newError)
     return next(new Error("User already exists"))
   }
   const pwdHash = await bcrypt.hash(password, 10)
