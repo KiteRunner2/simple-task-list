@@ -24,17 +24,6 @@ function SignUpNotice() {
   )
 }
 
-function RenderError() {
-  const { isError, errorMessage } = useStore((state) => {
-    return {
-      isError: state.isError,
-      errorMessage: state.errorMessage,
-    }
-  })
-  if (!isError) return null
-  return <div>{errorMessage}</div>
-}
-
 function LoginOrRegister() {
   const [input, setInput] = useState({ email: "", password: "" })
   const isRegistering = useStore((state) => state.isRegistering)
@@ -74,10 +63,22 @@ function LoginOrRegister() {
       email: input["email"],
       password: input["password"],
     })
-    if (response.$data) {
-      console.log("success")
+    if (response.$error) {
+      openToast({
+        shouldShow: true,
+        title: "Error",
+        description: response.$error.message,
+        duration: 3000,
+        status: "error",
+      })
     } else {
-      setError("error during registration")
+      openToast({
+        shouldShow: true,
+        title: "Account created",
+        description: "Your account was created. You can sign in now.",
+        duration: 3000,
+        status: "success",
+      })
     }
   }
   const handleButtonClick = () => {
@@ -130,7 +131,6 @@ function LoginOrRegister() {
         </Button>
         <Button onClick={showToast}>Show toast</Button>
         <SignUpNotice />
-        <RenderError />
       </div>
     </div>
   )

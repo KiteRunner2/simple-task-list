@@ -21,6 +21,12 @@ async function Register(req: Request, res: Response, next: NextFunction) {
   if (!email || !password) {
     return next(new Error("email or password is missing"))
   }
+  const user = await Users.findOne({ email })
+  if (user) {
+    const newError = new Error("TEST")
+    console.log(newError)
+    return next(new Error("User already exists"))
+  }
   const pwdHash = await bcrypt.hash(password, 10)
   const data = {
     email,

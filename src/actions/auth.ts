@@ -36,22 +36,22 @@ async function Register({
     password,
   }
 
-  try {
-    useStore.setState({ isLoading: true })
-    let response: any = await fetch("/api/v1/auth/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  useStore.setState({ isLoading: true })
+  let response: any = await fetch("/api/v1/auth/register", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  if (response.status === 200) {
     response = await response.json()
-    return response
-  } catch (err) {
-    return { $error: err }
-  } finally {
     useStore.setState({ isLoading: false })
+    return response
   }
+  useStore.setState({ isLoading: false })
+  response = await response.json()
+  return { $error: { message: response.message } }
 }
 
 const actions = {
