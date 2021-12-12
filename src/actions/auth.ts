@@ -46,10 +46,8 @@ async function Register({
       },
     })
     response = await response.json()
-    useStore.setState({ toast: { shouldShow: true } })
     return response
   } catch (err) {
-    useStore.setState({ toast: { shouldShow: true } })
     return { $error: err }
   } finally {
     useStore.setState({ isLoading: false })

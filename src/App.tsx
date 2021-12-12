@@ -1,10 +1,10 @@
 import React from "react"
-import "./App.css"
 import "./components/TodoList"
 import TodoList from "./components/TodoList"
 import AddTodo from "./components/AddTodo"
 import useStore from "./store"
 import LoginOrRegister from "./components/Login"
+import AppContainer from "./components/AppContainer"
 
 function App() {
   const { list, addTodo } = useStore((state) => {
@@ -22,18 +22,23 @@ function App() {
     addTodo({ id: Math.random().toString(), text })
   }
 
-  if (!isAuthenticated) return <LoginOrRegister />
+  if (!isAuthenticated)
+    return (
+      <AppContainer>
+        <LoginOrRegister />
+      </AppContainer>
+    )
   if (isLoading) {
     return <div>Loading data...</div>
   }
   return (
-    <div className="App">
+    <AppContainer>
       <h1>Simple task list and note taker</h1>
       <div>
         <AddTodo onAddTodo={handleAddToDo} />
         <TodoList todoList={list} />
       </div>
-    </div>
+    </AppContainer>
   )
 }
 

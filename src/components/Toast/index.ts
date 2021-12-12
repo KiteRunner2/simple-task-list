@@ -2,25 +2,27 @@ import { useToast } from "@chakra-ui/react"
 import { useEffect } from "react"
 import useStore from "../../store"
 
-interface ToastProps {
-  shouldShowToast: boolean
-  title: string
-  description: string
-  status: "success" | "error"
-  duration: number
-}
-export default function Toast(props: ToastProps) {
+export default function Toast() {
   const toast = useToast()
-  useEffect(() => {
-    if (props.shouldShowToast) {
-      toast({
-        title: props.title,
-        description: props.description,
-        status: props.status,
-        duration: props.duration,
-        isClosable: true,
-      })
+  const shouldShowToast = useStore((state) => {
+    return state.toast.shouldShow
+  })
+  const hideToast = useStore((state) => {
+    return state.hideToast
+  })
+  const { title, description, duration, status } = useStore((state) => {
+    return {
+      title: state.toast.title,
+      description: state.toast.description,
+      duration: state.toast.duration,
+      status: state.toast.status,
     }
-  }, [props.shouldShowToast])
+  })
+  useEffect(() => {
+    if (shouldShowToast) {
+      toast({ title, description, duration, status, isClosable: true })
+    }
+    hideToast()
+  }, [shouldShowToast])
   return null
 }
