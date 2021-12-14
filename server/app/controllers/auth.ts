@@ -5,9 +5,7 @@ import { ResponseSuccess } from "../utils/response"
 
 async function Login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body
-  console.log(req.session.email)
-  console.log(req.session.userId)
-  console.log(req.session.id)
+
   if (!email || !password) {
     return next(new Error("email or password is missing"))
   }
