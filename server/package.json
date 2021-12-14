@@ -6,7 +6,7 @@
   "author": "Przemek Rudzki",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon build/index.js"
+    "start": "concurrently \"npx tsc -w\"  \"nodemon build/index.js\""
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.9",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "concurrently": "^6.4.0"
   }
 }
