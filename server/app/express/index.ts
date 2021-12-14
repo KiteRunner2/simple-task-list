@@ -4,6 +4,20 @@ import authRoutes from "../routes/auth"
 import bodyParser from "body-parser"
 import { ErrorResponse } from "../utils/response"
 import session from "express-session"
+import logger from "../logger"
+const MongoDBStore = require("connect-mongodb-session")(session)
+
+const store = new MongoDBStore({
+  uri: process.env.DB_URL,
+  collection: "mySessions",
+})
+
+store.on("error", function (error: any) {
+  logger.log({
+    level: "error",
+    message: "Error initializing store for sessions",
+  })
+})
 
 const sessionSecret = process.env.SESSION_SECRET || ""
 
@@ -14,9 +28,9 @@ const sessionParams = {
   cookie: {
     secure: false,
     httpOnly: true,
-    name: "hello.id",
     path: "/",
   },
+  store,
 }
 
 export default function Init(app: Express) {
