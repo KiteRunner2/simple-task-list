@@ -5,8 +5,10 @@ import bodyParser from "body-parser"
 import { ErrorResponse } from "../utils/response"
 import session from "express-session"
 
+const sessionSecret = process.env.SESSION_SECRET || ""
+
 const sessionParams = {
-  secret: "abc123",
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: true,
   cookie: {
