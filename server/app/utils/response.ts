@@ -6,7 +6,7 @@ export class ResponseSuccess {
   }
 }
 
-export class ResponseError {
+export class ErrorResponse {
   $error: { message: string }
   constructor(message: string) {
     this.$error = { message }

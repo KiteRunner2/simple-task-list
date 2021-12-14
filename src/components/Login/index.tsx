@@ -13,26 +13,18 @@ function SignUpNotice() {
     setIsRegistering(!isRegistering)
   }
   return (
-    <div className="signup-notice">
-      <span>
-        <span className="signup-notice__click-text" onClick={handleSignUpClick}>
-          Sign-up
-        </span>{" "}
-        if you don't have account yet
-      </span>
-    </div>
+    <span className="signup-notice__click-text" onClick={handleSignUpClick}>
+      {isRegistering
+        ? " or Sign in if you have account"
+        : " or click here to Sign up"}
+    </span>
   )
 }
 
 function LoginOrRegister() {
   const [input, setInput] = useState({ email: "", password: "" })
   const isRegistering = useStore((state) => state.isRegistering)
-  const { isRegisteringSuccessfull } = useStore((state) => {
-    return {
-      isRegisteringSuccessfull: state.isRegisteringSuccessfull,
-      // setIsRegisteringSuccessfull: state.isRegisteringSuccessfull,
-    }
-  })
+
   const { openToast } = useStore((state) => {
     return { openToast: state.showToast }
   })
@@ -93,16 +85,6 @@ function LoginOrRegister() {
     setInput({ ...input, [name]: value })
   }
 
-  const showToast = () => {
-    console.log("showing toast")
-    openToast({
-      shouldShow: true,
-      title: "Hello",
-      description: "Hello",
-      duration: 3000,
-      status: "error",
-    })
-  }
   return (
     <div className="login-container">
       <div className="login-form">
@@ -127,9 +109,9 @@ function LoginOrRegister() {
           isLoading={isLoading}
           loadingText="Logging you in..."
         >
-          {isRegistering ? "Sign up" : "Login"}
+          {isRegistering ? "Sign up" : "Sign in"}
         </Button>
-        <Button onClick={showToast}>Show toast</Button>
+        <span></span>
         <SignUpNotice />
       </div>
     </div>

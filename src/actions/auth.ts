@@ -44,14 +44,9 @@ async function Register({
       "Content-Type": "application/json",
     },
   })
-  if (response.status === 200) {
-    response = await response.json()
-    useStore.setState({ isLoading: false })
-    return response
-  }
-  useStore.setState({ isLoading: false })
   response = await response.json()
-  return { $error: { message: response.message } }
+  useStore.setState({ isLoading: false })
+  return response
 }
 
 const actions = {

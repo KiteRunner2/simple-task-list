@@ -5,6 +5,8 @@ import { ResponseSuccess } from "../utils/response"
 
 async function Login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body
+  console.log(req.session.email)
+  console.log(req.session.userId)
   if (!email || !password) {
     return next(new Error("email or password is missing"))
   }
@@ -14,6 +16,8 @@ async function Login(req: Request, res: Response, next: NextFunction) {
   }
   const hash = user.password
   if (bcrypt.compareSync(password, hash)) {
+    req.session.email = email
+    req.session.userId = user._id
     return res.status(200).json(new ResponseSuccess("Login ok!", []))
   }
   return next(new Error("Wrong email or password"))
